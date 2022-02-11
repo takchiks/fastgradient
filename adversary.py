@@ -109,7 +109,7 @@ if __name__ == "__main__":
     if not args.use_cpu:
         classifier = classifier.cpu()
 
-    checkpoint = torch.load(str(experiment_dir) + '/checkpoints/best_model.pth')
+    checkpoint = torch.load(str(experiment_dir) + '/checkpoints/best_model.pth', map_location=torch.device('cpu'))
     classifier.load_state_dict(checkpoint['model_state_dict'])
 
     # net = models.resnet18(pretrained=True)
