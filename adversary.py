@@ -112,11 +112,11 @@ if __name__ == "__main__":
     checkpoint = torch.load(str(experiment_dir) + '/checkpoints/best_model.pth', map_location=torch.device('cpu'))
     classifier.load_state_dict(checkpoint['model_state_dict'])
 
-    net = models.resnet18(pretrained=True)
-    net.eval()
-
-    tensor = read_image("img.jpg")
-    log_string(tensor)
+    # net = models.resnet18(pretrained=True)
+    # net.eval()
+    #
+    # tensor = read_image("img.jpg")
+    # log_string(tensor)
 
     net = classifier
     net.eval()
@@ -124,7 +124,7 @@ if __name__ == "__main__":
         x_t = torch.Tensor(x)
         log_string(x_t)
         y_t = torch.Tensor(y)
-        tensor = y_t
+        tensor = torch.t(x_t)
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, eps=1e-3, n_iter=100
             )
