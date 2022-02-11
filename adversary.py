@@ -37,7 +37,7 @@ def parse_args():
 
 def func(inp, net=None, target=None):
 
-    out = net(inp)
+    out, _ = net(inp)
     loss = torch.nn.functional.nll_loss(out, target=torch.LongTensor([target]))
 
     print(f"Loss: {loss.item()}")
