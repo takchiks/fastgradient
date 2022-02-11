@@ -112,10 +112,12 @@ if __name__ == "__main__":
     checkpoint = torch.load(str(experiment_dir) + '/checkpoints/best_model.pth', map_location=torch.device('cpu'))
     classifier.load_state_dict(checkpoint['model_state_dict'])
 
-    # net = models.resnet18(pretrained=True)
-    # net.eval()
-    #
-    # tensor = read_image("img.jpg")
+    net = models.resnet18(pretrained=True)
+    net.eval()
+
+    tensor = read_image("img.jpg")
+    log_string(tensor)
+
     net = classifier
     net.eval()
     for step, (x, y) in enumerate(test_dataset):
