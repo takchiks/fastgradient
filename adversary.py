@@ -48,7 +48,10 @@ def attack(tensor, net, eps=1e-3, n_iter=50):
     new_tensor = tensor.detach().clone()
 
     # orig_prediction, _ = net(tensor)
-    orig_prediction, _ = net(tensor).argmax()
+    orig_prediction, _ = net(tensor)
+
+    orig_prediction = orig_prediction.argmax()
+
     print(f"Original prediction: {orig_prediction.item()}")
 
     for i in range(n_iter):
