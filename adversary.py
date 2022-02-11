@@ -120,10 +120,13 @@ if __name__ == "__main__":
 
     net = classifier
     net.eval()
-    for step, (x, y) in enumerate(test_dataset):
-        x_t = torch.Tensor(x)
-        log_string(x_t)
-        y_t = torch.Tensor(y)
+
+    log_string(test_dataset)
+
+    for data in enumerate(test_dataset):
+        x_t = torch.Tensor(data)
+        # log_string(x_t)
+        # y_t = torch.Tensor(y)
         tensor = torch.t(x_t)
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, eps=1e-3, n_iter=100
