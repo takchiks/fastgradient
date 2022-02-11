@@ -104,7 +104,7 @@ if __name__ == "__main__":
     data_path = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/'
 
     test_dataset = ModelNetDataLoader(root=data_path, args=args, split='test', process_data=False)
-    testDataLoader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=10)
+    testDataLoader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=10)
 
     '''MODEL LOADING'''
     num_class = args.num_category
