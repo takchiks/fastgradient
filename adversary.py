@@ -121,7 +121,7 @@ if __name__ == "__main__":
     for step, (x, y) in enumerate(test_dataset):
         x_t = torch.from_numpy(x)
         y_t = torch.Tensor(y)
-        tensor = torch.cat((x_t, y_t), -1)
+        tensor = x_t
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, eps=1e-3, n_iter=100
             )
