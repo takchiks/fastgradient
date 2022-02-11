@@ -59,7 +59,7 @@ def attack(tensor, net, eps=1e-3, n_iter=50):
         net.zero_grad()
         log_string(orig_prediction.item())
         grad = compute_gradient(
-                func, new_tensor, net=net, target=orig_prediction.item()
+                func, new_tensor, net=net, target=orig_prediction
                 )
         new_tensor = torch.clamp(new_tensor + eps * grad.sign(), -2, 2)
         new_prediction, _ = net(new_tensor).argmax()
