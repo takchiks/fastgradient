@@ -79,7 +79,7 @@ if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
     '''CREATE DIR'''
-    experiment_dir = '../../PointClouds/Pointnet_Pointnet2_pytorch/log/classification/' + args.log_dir
+    experiment_dir = '/home/tchikwanda1/Documents/PointClouds/Pointnet_Pointnet2_pytorch/log/classification/' + args.log_dir
 
     '''LOG'''
     args = parse_args()
