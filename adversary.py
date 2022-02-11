@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
     # for j, (points, target) in tqdm(enumerate(loader), total=len(loader)):
     # log_string(test_dataset)
-    for step, (x, y) in tqdm(enumerate(test_dataset), total=len(test_dataset)):
+    for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
 
 
         x = x.transpose(2, 1)
