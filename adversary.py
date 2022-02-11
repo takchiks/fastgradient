@@ -50,7 +50,7 @@ def attack(tensor, net, eps=1e-3, n_iter=50):
     # orig_prediction, _ = net(tensor)
     orig_prediction, _ = net(tensor)
 
-    log_string(orig_prediction.item())
+    log_string(orig_prediction)
     orig_prediction = orig_prediction.argmax()
 
     print(f"Original prediction: {orig_prediction.item()}")
