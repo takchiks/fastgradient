@@ -62,8 +62,9 @@ def attack(tensor, net, eps=1e-3, n_iter=50):
                 func, new_tensor, net=net, target=orig_prediction
                 )
         new_tensor = torch.clamp(new_tensor + eps * grad.sign(), -2, 2)
-        new_prediction, _ = net(new_tensor).argmax()
+        new_prediction, _ = net(new_tensor)
         # new_prediction, _ = net(new_tensor)
+        new_prediction = new_prediction.argmax()
 
         if orig_prediction != new_prediction:
             print(f"We fooled the network after {i} iterations!")
