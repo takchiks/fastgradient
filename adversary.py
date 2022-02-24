@@ -69,6 +69,7 @@ def attack(tensor, net, eps=1e-3, n_iter=50):
         if orig_prediction != new_prediction:
             print(f"We fooled the network after {i} iterations!")
             print(f"New prediction: {new_prediction.item()}")
+            log_string(new_tensor)
             break
 
     return new_tensor, orig_prediction.item(), new_prediction.item()
@@ -138,7 +139,6 @@ if __name__ == "__main__":
         # log_string(x_t)
         # y_t = torch.Tensor(y)
         tensor = x
-        log_string(tensor)
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, eps=1e-3, n_iter=100
             )
