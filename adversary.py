@@ -138,9 +138,11 @@ if __name__ == "__main__":
         # log_string(x_t)
         # y_t = torch.Tensor(y)
         tensor = x
+        log_string(tensor)
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, eps=1e-3, n_iter=100
             )
+        arr = to_array(new_tensor)
 
     _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
     arr = to_array(tensor)

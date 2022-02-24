@@ -29,6 +29,7 @@ def read_image(path):
 
     return tensor
 
+
 def to_array(tensor):
 
     tensor_ = tensor.squeeze()
@@ -41,6 +42,19 @@ def to_array(tensor):
     arr = arr_.permute(1, 2, 0).detach().numpy()
 
     return arr
+
+# def to_array(tensor):
+#
+#     tensor_ = tensor.squeeze()
+#
+#     unnormalize_transform = Compose([Normalize(mean=[0, 0, 0],
+#                                                std=[1 / 0.229, 1 / 0.224, 1 / 0.225]),
+#                                      Normalize(mean=[-0.485, -0.456, -0.406],
+#                                                std=[1, 1, 1])])
+#     arr_ = unnormalize_transform(tensor_)
+#     arr = arr_.permute(1, 2, 0).detach().numpy()
+#
+#     return arr
 
 def scale_grad(grad):
     grad_arr = torch.abs(grad).mean(dim=1).detach().permute(1, 2, 0)
