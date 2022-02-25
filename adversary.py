@@ -52,6 +52,7 @@ def attack(tensor, net, eps=0.005, n_iter=5):
     # log_string(orig_prediction)
     orig_prediction = orig_prediction.argmax()
 
+    log_string(f"{tensor.size()}")
     print(f"Original prediction: {orig_prediction.item()}")
 
     for i in range(n_iter):
@@ -75,6 +76,7 @@ def attack(tensor, net, eps=0.005, n_iter=5):
     if orig_prediction == new_prediction:
         print(f"After {n_iter} the model could not be fooled! on this Tensor: ")
         log_string(new_tensor)
+        log_string(f"{new_tensor.size()}")
 
     return new_tensor, orig_prediction.item(), new_prediction.item()
 
