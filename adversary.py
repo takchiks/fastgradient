@@ -66,7 +66,7 @@ def attack(tensor, net, eps=0.005, n_iter=5):
         new_prediction = new_prediction.argmax()
 
         if orig_prediction != new_prediction:
-            print(f"We fooled the network after epsilon {i} iterations!")
+            print(f"We fooled the network after {i} iterations!")
             print(f"New prediction: {new_prediction.item()}")
 
             print("New Tensor")
@@ -135,6 +135,8 @@ if __name__ == "__main__":
 
     # for j, (points, target) in tqdm(enumerate(loader), total=len(loader)):
     # log_string(test_dataset)
+    total = 0
+    countdiff=0
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
 
 
@@ -146,6 +148,12 @@ if __name__ == "__main__":
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, eps=0.05, n_iter=7
             )
+        total+=1
+        if orig_prediction!=new_prediction:
+            countdiff+=1
+
+    accuracy = 1 - (countdiff/total)
+    log_string(f"The accuracy of the model after adding a perturbation is now {accuracy}")
         # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
