@@ -43,10 +43,9 @@ def func(inp, net=None, target=None):
     print(f"Loss: {loss.item()}")
     return loss
 
-def attack(tensor, net, eps=2e-2, n_iter=5):
+def attack(tensor, net, eps=0.005, n_iter=5):
 
     new_tensor = tensor.detach().clone()
-
     # orig_prediction, _ = net(tensor)
     orig_prediction, _ = net(tensor)
 
@@ -69,8 +68,12 @@ def attack(tensor, net, eps=2e-2, n_iter=5):
         if orig_prediction != new_prediction:
             print(f"We fooled the network after {i} iterations!")
             print(f"New prediction: {new_prediction.item()}")
+
+            print("New Tensor")
             log_string(new_tensor)
             break
+        print("New Tensor")
+        log_string(new_tensor)
 
     return new_tensor, orig_prediction.item(), new_prediction.item()
 
@@ -140,26 +143,26 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, eps=2e-2, n_iter=4
+            tensor, net, eps=0.03, n_iter=2
             )
         arr = to_array(new_tensor)
 
-    _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
-    arr = to_array(tensor)
-    new_arr = to_array(new_tensor)
-    diff_arr = np.abs(arr - new_arr).mean(axis=-1)
-    diff_arr = diff_arr / diff_arr.max()
-
-    ax_orig.imshow(arr)
-    ax_new.imshow(new_arr)
-    ax_diff.imshow(diff_arr, cmap="gray")
-
-    ax_orig.axis("off")
-    ax_new.axis("off")
-    ax_diff.axis("off")
-
-    ax_orig.set_title(f"Original: {orig_prediction}")
-    ax_new.set_title(f"Modified: {new_prediction}")
-    ax_diff.set_title("Difference")
-
-    plt.savefig("res_1.png")
+    # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
+    # arr = to_array(tensor)
+    # new_arr = to_array(new_tensor)
+    # diff_arr = np.abs(arr - new_arr).mean(axis=-1)
+    # diff_arr = diff_arr / diff_arr.max()
+    #
+    # ax_orig.imshow(arr)
+    # ax_new.imshow(new_arr)
+    # ax_diff.imshow(diff_arr, cmap="gray")
+    #
+    # ax_orig.axis("off")
+    # ax_new.axis("off")
+    # ax_diff.axis("off")
+    #
+    # ax_orig.set_title(f"Original: {orig_prediction}")
+    # ax_new.set_title(f"Modified: {new_prediction}")
+    # ax_diff.set_title("Difference")
+    #
+    # plt.savefig("res_1.png")
