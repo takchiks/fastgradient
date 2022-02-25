@@ -43,7 +43,7 @@ def func(inp, net=None, target=None):
     print(f"Loss: {loss.item()}")
     return loss
 
-def attack(tensor, net, eps=1e-3, n_iter=50):
+def attack(tensor, net, eps=2e-2, n_iter=5):
 
     new_tensor = tensor.detach().clone()
 
@@ -140,7 +140,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, eps=1e-3, n_iter=100
+            tensor, net, eps=2e-2, n_iter=4
             )
         arr = to_array(new_tensor)
 
