@@ -145,7 +145,7 @@ if __name__ == "__main__":
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, eps=0.03, n_iter=2
             )
-        arr = to_array(new_tensor)
+        # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
     # arr = to_array(tensor)
