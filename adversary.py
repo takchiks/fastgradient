@@ -60,19 +60,19 @@ def attack(tensor, net, eps=0.005, n_iter=5):
         grad = compute_gradient(
                 func, new_tensor, net=net, target=orig_prediction
                 )
-        new_tensor = torch.clamp(new_tensor + eps * grad.sign(), -2, 2)
+        new_tensor = torch.clamp(tensor + eps*i * grad.sign(), -2, 2)
         new_prediction, _ = net(new_tensor)
         # new_prediction, _ = net(new_tensor)
         new_prediction = new_prediction.argmax()
 
         if orig_prediction != new_prediction:
-            print(f"We fooled the network after {i} iterations!")
+            print(f"We fooled the network after epsilon {i*eps} iterations!")
             print(f"New prediction: {new_prediction.item()}")
 
             print("New Tensor")
             log_string(new_tensor)
             break
-        print("New Tensor")
+        print("New Tensor: Could not Fool!")
         log_string(new_tensor)
 
     return new_tensor, orig_prediction.item(), new_prediction.item()
@@ -143,7 +143,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, eps=0.07, n_iter=5
+            tensor, net, eps=0.001, n_iter=5
             )
         # arr = to_array(new_tensor)
 
