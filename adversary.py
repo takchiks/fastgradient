@@ -143,7 +143,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, eps=0.001, n_iter=5
+            tensor, net, eps=0.005, n_iter=7
             )
         # arr = to_array(new_tensor)
 
