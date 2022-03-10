@@ -56,6 +56,7 @@ def to_array(tensor):
 #
 #     return arr
 
+
 def scale_grad(grad):
     grad_arr = torch.abs(grad).mean(dim=1).detach().permute(1, 2, 0)
     grad_arr /= grad_arr.quantile(0.98)

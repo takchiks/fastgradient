@@ -44,7 +44,7 @@ def func(inp, net=None, target=None):
     return loss
 
 def attack(tensor, net, eps=0.005, n_iter=5):
-
+    args = parse_args()
     new_tensor = tensor.detach().clone()
     # orig_prediction, _ = net(tensor)
     orig_prediction, _ = net(tensor)
@@ -71,7 +71,7 @@ def attack(tensor, net, eps=0.005, n_iter=5):
             print(f"New prediction: {new_prediction.item()}")
 
             print("New Tensor")
-            log_string(new_tensor.transpose(1,2))
+            log_string(new_tensor.transpose(1,2).detach().device(args.gpu).numpy())
             break
     if orig_prediction == new_prediction:
         print(f"After {n_iter} the model could not be fooled! on this Tensor: ")
