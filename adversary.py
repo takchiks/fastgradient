@@ -91,8 +91,9 @@ def attack(tensor, net, step, eps=0.005, n_iter=5):
         tensor_string = tensor_string + ','.join(map(str, a)) + "\n"
     filenaming = os. path. join(data_path,f"{cat[orig_prediction]}", f"{step}_output.txt")
 
-    with open(filenaming, "x") as text_file:
-        text_file.write(tensor_string)
+    text_file = open(filenaming, "x")
+    text_file.write(tensor_string)
+    text_file.close()
     # ','.join(map(str, a))
 
     if orig_prediction == new_prediction:
