@@ -84,9 +84,6 @@ def attack(tensor, net, step, eps=0.005, n_iter=5):
     cat = [line.rstrip() for line in open(catfile)]
     classes = dict(zip(cat, range(len(cat))))
 
-    print(f"classes {classes}\n")
-
-    print(f"cat {cat}\n")
     data_path= "examples"
     for a in tensor_numpy[0]:
         tensor_string =f"{tensor_string}{a[0]},{a[1]},{a[2]} \n"
