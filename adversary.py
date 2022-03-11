@@ -88,7 +88,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5):
     print(f"cat {cat}\n")
     data_path= "examples"
     for a in tensor_numpy:
-        tensor_string = tensor_string + ','.join(map(str, a)) + "\n"
+        tensor_string = tensor_string + ','.join(a) + "\n"
     filenaming = os. path. join(data_path,f"{cat[orig_prediction]}", f"{step}_output.txt")
 
     text_file = open(filenaming, "w")
