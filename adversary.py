@@ -73,7 +73,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5):
             break
     tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
     tensor_string = ""
-    data_path = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/'
+    data_path = 'examples'
 
     if parse_args().num_category == 10:
         catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
