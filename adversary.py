@@ -43,7 +43,7 @@ def func(inp, net=None, target=None):
     print(f"Loss: {loss.item()}")
     return loss
 
-def attack(tensor, net, eps=0.005, n_iter=5):
+def attack(tensor, net, step, eps=0.005, n_iter=5):
     args = parse_args()
     new_tensor = tensor.detach().clone()
     # orig_prediction, _ = net(tensor)
@@ -69,10 +69,31 @@ def attack(tensor, net, eps=0.005, n_iter=5):
         if orig_prediction != new_prediction:
             print(f"We fooled the network after {i} iterations!")
             print(f"New prediction: {new_prediction.item()}")
-
-            print("New Tensor")
             log_string(new_tensor.transpose(1,2).detach().numpy())
             break
+    tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
+    tensor_string = ""
+    data_path = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/'
+
+    if parse_args().num_category == 10:
+        catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
+    else:
+        catfile = os.path.join(data_path, 'modelnet40_shape_names.txt')
+
+    cat = [line.rstrip() for line in open(catfile)]
+    classes = dict(zip(cat, range(len(cat))))
+
+    print(f"classes {classes}\n")
+
+    print(f"cat {cat}\n")
+    for a in tensor_numpy:
+        tensor_string = tensor_string + ','.join(map(str, a)) + "\n"
+    filenaming = f"{cat[orig_prediction]}/{step}_output.txt"
+
+    with open(filenaming, "w") as text_file:
+        text_file.write(tensor_string)
+    # ','.join(map(str, a))
+
     if orig_prediction == new_prediction:
         print(f"After {n_iter} the model could not be fooled! on this Tensor: ")
         log_string(new_tensor)
@@ -148,14 +169,14 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, eps=0.01, n_iter=5
+            tensor, net, step, eps=0.01, n_iter=5
             )
         total+=1
         if orig_prediction!=new_prediction:
             countdiff+=1
 
     accuracy = 1 - (countdiff/total)
-    log_string(f"The accuracy of the model after adding a perturbation is now {accuracy}")
+    log_string(f"The accuracy of the model after adding a perturbation is now {accuracy*100}")
         # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
