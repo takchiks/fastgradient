@@ -170,7 +170,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, step, eps=0.01, n_iter=3
+            tensor, net, step, eps=0.1, n_iter=5
             )
         total+=1
         if orig_prediction!=new_prediction:
