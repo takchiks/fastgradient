@@ -209,7 +209,7 @@ if __name__ == '__main__':
     sys.path.append(os.path.join(ROOT_DIR, 'data_utils'))
 
     from ShapeNetDataLoader import PartNormalDataset
-    root = '../data/shapenetcore_partanno_segmentation_benchmark_v0_normal/'
+    root = '../examples'
     dataset = PartNormalDataset(root = root, npoints=2048, split='test', normal_channel=False)
     idx = np.random.randint(0, len(dataset))
     data = dataset[idx]
