@@ -2,6 +2,7 @@ import torch.nn as nn
 import torch.utils.data
 import torch.nn.functional as F
 from mynet_utils import PointNetEncoder, feature_transform_reguliarzer
+import numpy as np
 
 class get_model(nn.Module):
     def __init__(self, k=40, normal_channel=True):
