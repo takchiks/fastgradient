@@ -231,7 +231,7 @@ if __name__ == '__main__':
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
             i += 1
-    point_set = np.array(point_list)
+    point_set = np.array(point_list).astype(float)
     showpoints(point_set, waittime=0, showrot=False, magnifyBlue=0, freezerot=False,
                background=(255, 255, 255), normalizecolor=True, ballradius=opt.ballradius)
 
