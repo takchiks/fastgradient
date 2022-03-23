@@ -224,14 +224,14 @@ if __name__ == '__main__':
     import numpy as np
 
     # data = np.loadtxt("../examples/airplane/0_output.txt", delimiter = "\n")
-    point_set = []
+    point_list = []
     i = 0
     with open('../examples/airplane/0_output.txt', 'r') as data:
         for line in data:
-            point_set.append([])
-            point_set[i] = [n for n in line.split(',')]
+            point_list.append([])
+            point_list[i] = [n for n in line.split(',')]
             i += 1
-
+    point_set = np.array(point_list)
     showpoints(point_set, waittime=0, showrot=False, magnifyBlue=0, freezerot=False,
                background=(255, 255, 255), normalizecolor=True, ballradius=opt.ballradius)
 
