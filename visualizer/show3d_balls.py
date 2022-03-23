@@ -208,18 +208,31 @@ if __name__ == '__main__':
     sys.path.append(BASE_DIR)
     sys.path.append(os.path.join(ROOT_DIR, 'data_utils'))
 
-    from ShapeNetDataLoader import PartNormalDataset
-    root = '../examples'
-    dataset = PartNormalDataset(root = root, npoints=2048, split='test', normal_channel=False)
-    idx = np.random.randint(0, len(dataset))
-    data = dataset[idx]
-    point_set, _, seg = data
-    choice = np.random.choice(point_set.shape[0], opt.npoints, replace=True)
-    point_set, seg = point_set[choice, :], seg[choice]
-    seg = seg - seg.min()
-    gt = cmap[seg, :]
-    pred = cmap[seg, :]
-    showpoints(point_set, gt, c_pred=pred, waittime=0, showrot=False, magnifyBlue=0, freezerot=False,
+    from ModelNetDataLoader import ModelNetDataLoader
+    # from ShapeNetDataLoader import PartNormalDataset
+    # root = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/shapenetcore_partanno_segmentation_benchmark_v0_normal/'
+    # dataset = PartNormalDataset(root = root, npoints=2048, split='test', normal_channel=False, num)
+    # idx = np.random.randint(0, len(dataset))
+    # data = dataset[idx]
+    # point_set, _, seg = data
+    # choice = np.random.choice(point_set.shape[0], opt.npoints, replace=True)
+    # point_set, seg = point_set[choice, :], seg[choice]
+
+    # seg = seg - seg.min()
+    # gt = cmap[seg, :]
+    # pred = cmap[seg, :]
+    import numpy as np
+
+    # data = np.loadtxt("../examples/airplane/0_output.txt", delimiter = "\n")
+    point_set = []
+    i = 0
+    with open('../examples/airplane/0_output.txt', 'r') as data:
+        for line in data:
+            point_set.append([])
+            point_set[i] = [n for n in line.split(',')]
+            i += 1
+
+    showpoints(point_set, waittime=0, showrot=False, magnifyBlue=0, freezerot=False,
                background=(255, 255, 255), normalizecolor=True, ballradius=opt.ballradius)
 
 

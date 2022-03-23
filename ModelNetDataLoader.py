@@ -47,13 +47,13 @@ def farthest_point_sample(point, npoint):
 
 
 class ModelNetDataLoader(Dataset):
-    def __init__(self, root, args, split='train', process_data=False):
+    def __init__(self, root, args, split='train', process_data=False, num_category=40):
         self.root = root
         self.npoints = args.num_point
         self.process_data = process_data
         self.uniform = args.use_uniform_sample
         self.use_normals = args.use_normals
-        self.num_category = args.num_category
+        self.num_category = num_category
 
         if self.num_category == 10:
             self.catfile = os.path.join(self.root, 'modelnet10_shape_names.txt')
@@ -67,11 +67,14 @@ class ModelNetDataLoader(Dataset):
         if self.num_category == 10:
             shape_ids['train'] = [line.rstrip() for line in open(os.path.join(self.root, 'modelnet10_train.txt'))]
             shape_ids['test'] = [line.rstrip() for line in open(os.path.join(self.root, 'modelnet10_test.txt'))]
-        else:
+        elif self.num_category == 40:
             shape_ids['train'] = [line.rstrip() for line in open(os.path.join(self.root, 'modelnet40_train.txt'))]
             shape_ids['test'] = [line.rstrip() for line in open(os.path.join(self.root, 'modelnet40_test.txt'))]
+        else:
+        shape_ids['train'] = [line.rstrip() for line in open(os.path.join(self.root, 'examples_train.txt'))]
+        shape_ids['test'] = [line.rstrip() for line in open(os.path.join(self.root, 'examples_test.txt'))]
 
-        assert (split == 'train' or split == 'test')
+        assert (split == 'train' or split == 'test' or split == 'examples')
         shape_names = ['_'.join(x.split('_')[0:-1]) for x in shape_ids[split]]
         self.datapath = [(shape_names[i], os.path.join(self.root, shape_names[i], shape_ids[split][i]) + '.txt') for i
                          in range(len(shape_ids[split]))]
