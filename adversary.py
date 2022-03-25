@@ -170,6 +170,9 @@ if __name__ == "__main__":
     # log_string(test_dataset)
     total = 0
     countdiff=0
+    class_total = []
+    class_countdiff = []
+
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
 
 
@@ -181,19 +184,23 @@ if __name__ == "__main__":
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, step, eps=0.1, n_iter=1, orig_class=shape_names[step]
             )
-        total+=1
-
         if parse_args().num_category == 10:
             catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
         else:
             catfile = os.path.join(data_path, 'modelnet40_shape_names.txt')
 
         cat = [line.rstrip() for line in open(catfile)]
+
+        total+=1
+        class_total[cat.index(shape_names[step])]+=1
         if cat.index(shape_names[step])!=new_prediction:
             countdiff+=1
-
+            class_countdiff[cat.index(shape_names[step])]=+1
+    for i in range(len(class_total)):
+        accuracy = 1 - (class_countdiff[i]/class_total[i])
+        log_string(f"The CLASS accuracy after adding a perturbation of {shape_names[step]} = {accuracy*100}% \n ")
     accuracy = 1 - (countdiff/total)
-    log_string(f"The accuracy of the model after adding a perturbation is now {accuracy*100}%")
+    log_string(f"\n\nThe overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
         # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
