@@ -61,6 +61,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
 
     # log_string(orig_prediction)
     orig_prediction = orig_prediction.argmax()
+    new_prediction = orig_prediction.argmax()
 
     log_string(f"{tensor.size()}")
     print(f"Original class: {orig_class}")
@@ -103,7 +104,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
     text_file.close()
     # ','.join(map(str, a))
 
-    if cat.index(orig_class) == new_prediction:
+    if cat.index(orig_class) == orig_prediction:
         print(f"After {n_iter} epochs the model could not be fooled! ")
         # log_string(new_tensor)
         # log_string(f"{new_tensor.size()}")
@@ -146,6 +147,13 @@ if __name__ == "__main__":
     shape_names = test_dataset.getPointCloudFiles()
     fileshape = test_dataset.getFileShape()
 
+    if parse_args().num_category == 10:
+        catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
+    else:
+        catfile = os.path.join(data_path, 'modelnet40_shape_names.txt')
+
+    cat = [line.rstrip() for line in open(catfile)]
+
     '''MODEL LOADING'''
     num_class = args.num_category
     model_name = os.listdir(experiment_dir + '/logs')[0].split('.')[0]
@@ -186,21 +194,16 @@ if __name__ == "__main__":
         new_tensor, orig_prediction, new_prediction = attack(
             tensor, net, step, eps=0.1, n_iter=3, orig_class=shape_names[step], filename=fileshape[step]
             )
-        if parse_args().num_category == 10:
-            catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
-        else:
-            catfile = os.path.join(data_path, 'modelnet40_shape_names.txt')
-
-        cat = [line.rstrip() for line in open(catfile)]
 
         total+=1
         class_total[cat.index(shape_names[step])]+=1
         if cat.index(shape_names[step])!=new_prediction:
             countdiff+=1
             class_countdiff[cat.index(shape_names[step])]=+1
+
     for i in range(len(class_total)):
         accuracy = 1 - (class_countdiff[i]/class_total[i])
-        log_string(f"The CLASS accuracy after adding a perturbation of {shape_names[step]} = {accuracy*100}% \n ")
+        log_string(f"The CLASS accuracy after adding a perturbation of {cat[i]} = {accuracy*100}% \n ")
     accuracy = 1 - (countdiff/total)
     log_string(f"\n\nThe overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
         # arr = to_array(new_tensor)
