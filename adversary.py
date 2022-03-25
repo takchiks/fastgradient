@@ -43,7 +43,7 @@ def func(inp, net=None, target=None):
     print(f"Loss: {loss.item()}")
     return loss
 
-def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car"):
+def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="output"):
     args = parse_args()
     new_tensor = tensor.detach().clone()
     # orig_prediction, _ = net(tensor)
@@ -97,7 +97,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car"):
         tensor_string =f"{tensor_string}{a[0]},{a[1]},{a[2]} \n"
         # tensor_string = tensor_string + ','.join(str(v) for v in tensor_numpy) + "\n"
 
-    filenaming = os. path. join(data_path,f"{orig_class}", f"{orig_class}_{step}.txt")
+    filenaming = os. path. join(data_path,f"{orig_class}", f"{filename}.txt")
     text_file = open(filenaming, "w")
     text_file.write(tensor_string)
     text_file.close()
@@ -144,6 +144,7 @@ if __name__ == "__main__":
     test_dataset = ModelNetDataLoader(root=data_path, args=args, split='test', process_data=False)
     testDataLoader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=10)
     shape_names = test_dataset.getPointCloudFiles()
+    fileshape = test_dataset.getFileShape()
 
     '''MODEL LOADING'''
     num_class = args.num_category
@@ -183,7 +184,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, step, eps=0.1, n_iter=3, orig_class=shape_names[step]
+            tensor, net, step, eps=0.1, n_iter=3, orig_class=shape_names[step], filename=fileshape[step]
             )
         if parse_args().num_category == 10:
             catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')

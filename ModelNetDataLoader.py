@@ -77,6 +77,7 @@ class ModelNetDataLoader(Dataset):
 
         assert (split == 'train' or split == 'test' or split == 'examples')
         self.shape_names = ['_'.join(x.split('_')[0:-1]) for x in shape_ids[split]]
+        self.fileshape = shape_ids[split]
         self.datapath = [(self.shape_names[i], os.path.join(self.root, self.shape_names[i], shape_ids[split][i]) + '.txt') for i
                          in range(len(shape_ids[split]))]
         print('The size of %s data is %d' % (split, len(self.datapath)))
@@ -115,6 +116,9 @@ class ModelNetDataLoader(Dataset):
 
     def __len__(self):
         return len(self.datapath)
+
+    def getFileShape(self):
+        return self.fileshape
 
     def getPointCloudFiles(self):
         return self.shape_names
