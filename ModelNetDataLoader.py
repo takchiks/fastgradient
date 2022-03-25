@@ -55,6 +55,7 @@ class ModelNetDataLoader(Dataset):
         self.use_normals = args.use_normals
         self.num_category = num_category
 
+
         if self.num_category == 10:
             self.catfile = os.path.join(self.root, 'modelnet10_shape_names.txt')
         else:
@@ -75,8 +76,8 @@ class ModelNetDataLoader(Dataset):
             shape_ids['test'] = [line.rstrip() for line in open(os.path.join(self.root, 'examples_test.txt'))]
 
         assert (split == 'train' or split == 'test' or split == 'examples')
-        shape_names = ['_'.join(x.split('_')[0:-1]) for x in shape_ids[split]]
-        self.datapath = [(shape_names[i], os.path.join(self.root, shape_names[i], shape_ids[split][i]) + '.txt') for i
+        self.shape_names = ['_'.join(x.split('_')[0:-1]) for x in shape_ids[split]]
+        self.datapath = [(self.shape_names[i], os.path.join(self.root, self.shape_names[i], shape_ids[split][i]) + '.txt') for i
                          in range(len(shape_ids[split]))]
         print('The size of %s data is %d' % (split, len(self.datapath)))
 
@@ -114,6 +115,9 @@ class ModelNetDataLoader(Dataset):
 
     def __len__(self):
         return len(self.datapath)
+
+    def getPointCloudFiles(self):
+        return self.shape_names
 
     def _get_item(self, index):
         if self.process_data:

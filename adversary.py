@@ -43,17 +43,27 @@ def func(inp, net=None, target=None):
     print(f"Loss: {loss.item()}")
     return loss
 
-def attack(tensor, net, step, eps=0.005, n_iter=5):
+def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car"):
     args = parse_args()
     new_tensor = tensor.detach().clone()
     # orig_prediction, _ = net(tensor)
     orig_prediction, _ = net(tensor)
 
+    data_path = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/'
+
+    if parse_args().num_category == 10:
+        catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
+    else:
+        catfile = os.path.join(data_path, 'modelnet40_shape_names.txt')
+
+    cat = [line.rstrip() for line in open(catfile)]
+    classes = dict(zip(cat, range(len(cat))))
+
     # log_string(orig_prediction)
     orig_prediction = orig_prediction.argmax()
 
     log_string(f"{tensor.size()}")
-    print(f"Original prediction: {orig_prediction.item()}")
+    print(f"Original prediction: {orig_class}")
 
     for i in range(n_iter):
         net.zero_grad()
@@ -66,30 +76,21 @@ def attack(tensor, net, step, eps=0.005, n_iter=5):
         # new_prediction, _ = net(new_tensor)
         new_prediction = new_prediction.argmax()
 
-        if orig_prediction != new_prediction:
+        if cat.index(orig_class) != new_prediction:
             print(f"We fooled the network after {i} iterations!")
-            print(f"New prediction: {new_prediction.item()}")
+            print(f"New prediction: {cat[new_prediction]}")
             log_string(new_tensor.transpose(1,2).detach().numpy())
             break
     tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
     tensor_string = ""
     log_string(tensor_numpy)
-    data_path = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/'
-
-    if parse_args().num_category == 10:
-        catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
-    else:
-        catfile = os.path.join(data_path, 'modelnet40_shape_names.txt')
-
-    cat = [line.rstrip() for line in open(catfile)]
-    classes = dict(zip(cat, range(len(cat))))
 
     data_path= "examples"
     for a in tensor_numpy[0]:
         tensor_string =f"{tensor_string}{a[0]},{a[1]},{a[2]} \n"
         # tensor_string = tensor_string + ','.join(str(v) for v in tensor_numpy) + "\n"
 
-    filenaming = os. path. join(data_path,f"{cat[orig_prediction]}", f"{cat[orig_prediction]}_{step}.txt")
+    filenaming = os. path. join(data_path,f"{orig_class}", f"{orig_class}_{step}.txt")
     text_file = open(filenaming, "w")
     text_file.write(tensor_string)
     text_file.close()
@@ -115,7 +116,7 @@ if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
     '''CREATE DIR'''
-    experiment_dir = '/home/tchikwanda1/Documents/PointClouds/Pointnet_Pointnet2_pytorch/log/classification/' + args.log_dir
+    experiment_dir = '../../PointClouds/Pointnet_Pointnet2_pytorch/log/classification/' + args.log_dir
 
     '''LOG'''
     args = parse_args()
@@ -135,6 +136,7 @@ if __name__ == "__main__":
 
     test_dataset = ModelNetDataLoader(root=data_path, args=args, split='test', process_data=False)
     testDataLoader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=10)
+    shape_names = test_dataset.getPointCloudFiles()
 
     '''MODEL LOADING'''
     num_class = args.num_category
@@ -170,14 +172,21 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, step, eps=0.1, n_iter=5
+            tensor, net, step, eps=0.1, n_iter=1, orig_class=shape_names[step]
             )
         total+=1
-        if orig_prediction!=new_prediction:
+
+        if parse_args().num_category == 10:
+            catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
+        else:
+            catfile = os.path.join(data_path, 'modelnet40_shape_names.txt')
+
+        cat = [line.rstrip() for line in open(catfile)]
+        if cat.index(shape_names[step])!=new_prediction:
             countdiff+=1
 
     accuracy = 1 - (countdiff/total)
-    log_string(f"The accuracy of the model after adding a perturbation is now {accuracy*100}")
+    log_string(f"The accuracy of the model after adding a perturbation is now {accuracy*100}%")
         # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
