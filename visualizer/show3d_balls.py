@@ -226,7 +226,8 @@ if __name__ == '__main__':
     # data = np.loadtxt("../examples/airplane/0_output.txt", delimiter = "\n")
     point_list = []
     i = 0
-    with open('../examples/airplane/airplane_0628.txt', 'r') as data:
+    mypath = '../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0628.txt'
+    with open("../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0628.txt", 'r') as data:
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
