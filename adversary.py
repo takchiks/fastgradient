@@ -91,7 +91,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
             break
     tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
     tensor_string = ""
-    log_string(tensor_numpy)
+    # log_string(tensor_numpy)
 
     data_path= "examples"
     for a in tensor_numpy[0]:
@@ -192,7 +192,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, step, eps=0.1, n_iter=3, orig_class=shape_names[step], filename=fileshape[step]
+            tensor, net, step, eps=0.1, n_iter=5, orig_class=shape_names[step], filename=fileshape[step]
             )
 
         total+=1
