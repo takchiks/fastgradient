@@ -182,7 +182,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, step, eps=0.1, n_iter=1, orig_class=shape_names[step]
+            tensor, net, step, eps=0.1, n_iter=3, orig_class=shape_names[step]
             )
         if parse_args().num_category == 10:
             catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
