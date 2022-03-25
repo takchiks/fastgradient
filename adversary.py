@@ -104,7 +104,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car"):
     # ','.join(map(str, a))
 
     if cat.index(orig_class) == new_prediction:
-        print(f"After {n_iter} the model could not be fooled! on this Tensor: ")
+        print(f"After {n_iter} epochs the model could not be fooled! ")
         # log_string(new_tensor)
         # log_string(f"{new_tensor.size()}")
 
