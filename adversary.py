@@ -87,6 +87,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
         if cat.index(orig_class) != new_prediction:
             print(f"We fooled the network after {i+1} iterations!")
             print(f"New prediction: {cat[new_prediction]}")
+            print(f"{filename} \n")
             # log_string(new_tensor.transpose(1,2).detach().numpy())
             break
     tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
