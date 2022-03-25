@@ -63,9 +63,16 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car"):
     orig_prediction = orig_prediction.argmax()
 
     log_string(f"{tensor.size()}")
-    print(f"Original prediction: {orig_class}")
+    print(f"Original class: {orig_class}")
 
     for i in range(n_iter):
+
+        if cat.index(orig_class) != orig_prediction:
+            print(f"We fooled the network after {i} iterations!")
+            print(f"New prediction: {cat[new_prediction]}")
+            # log_string(new_tensor.transpose(1,2).detach().numpy())
+            break
+
         net.zero_grad()
         # log_string(orig_prediction.item())
         grad = compute_gradient(
@@ -77,9 +84,9 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car"):
         new_prediction = new_prediction.argmax()
 
         if cat.index(orig_class) != new_prediction:
-            print(f"We fooled the network after {i} iterations!")
+            print(f"We fooled the network after {i+1} iterations!")
             print(f"New prediction: {cat[new_prediction]}")
-            log_string(new_tensor.transpose(1,2).detach().numpy())
+            # log_string(new_tensor.transpose(1,2).detach().numpy())
             break
     tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
     tensor_string = ""
@@ -96,10 +103,10 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car"):
     text_file.close()
     # ','.join(map(str, a))
 
-    if orig_prediction == new_prediction:
+    if cat.index(orig_class) == new_prediction:
         print(f"After {n_iter} the model could not be fooled! on this Tensor: ")
-        log_string(new_tensor)
-        log_string(f"{new_tensor.size()}")
+        # log_string(new_tensor)
+        # log_string(f"{new_tensor.size()}")
 
     return new_tensor, orig_prediction.item(), new_prediction.item()
 
