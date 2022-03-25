@@ -170,8 +170,9 @@ if __name__ == "__main__":
     # log_string(test_dataset)
     total = 0
     countdiff=0
-    class_total = []
-    class_countdiff = []
+    # class_total = []
+    class_total = [0 for i in range(40)]
+    class_countdiff = [0 for i in range(40)]
 
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
 
