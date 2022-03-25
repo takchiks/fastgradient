@@ -193,7 +193,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, step, eps=0.1, n_iter=1, orig_class=shape_names[step], filename=fileshape[step]
+            tensor, net, step, eps=0.3, n_iter=1, orig_class=shape_names[step], filename=fileshape[step]
             )
 
         total+=1
@@ -206,7 +206,7 @@ if __name__ == "__main__":
         accuracy = 1 - (class_countdiff[i]/class_total[i])
         log_string(f"The CLASS accuracy after adding a perturbation of {cat[i]} = {accuracy*100}% \n ")
     accuracy = 1 - (countdiff/total)
-    log_string(f"\n E = 0.1 ep = 1 \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
+    log_string(f"\n E = 0.3 ep = 1 \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
         # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
