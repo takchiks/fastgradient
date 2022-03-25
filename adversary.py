@@ -192,7 +192,7 @@ if __name__ == "__main__":
         # y_t = torch.Tensor(y)
         tensor = x
         new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, step, eps=0.1, n_iter=5, orig_class=shape_names[step], filename=fileshape[step]
+            tensor, net, step, eps=0, n_iter=1, orig_class=shape_names[step], filename=fileshape[step]
             )
 
         total+=1
