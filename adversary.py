@@ -70,7 +70,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
     for i in range(n_iter):
 
         if cat.index(orig_class) != orig_prediction:
-            num_itr = i
+            num_itr = 5
             print(f"We fooled the network after {i+1} iterations!")
             print(f"New prediction: {cat[orig_prediction]}")
             # log_string(new_tensor.transpose(1,2).detach().numpy())
@@ -219,7 +219,7 @@ if __name__ == "__main__":
             countdiff += 1
             class_countdiff[cat.index(shape_names[step])] += 1
 
-        if num_itr == 1:
+        if num_itr == 0:
             real_adv.append([fileshape[step], num_itr, orig_prediction, new_prediction])
 
     for i in range(len(class_total)):
