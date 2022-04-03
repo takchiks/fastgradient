@@ -226,7 +226,7 @@ if __name__ == '__main__':
     # data = np.loadtxt("../examples/airplane/0_output.txt", delimiter = "\n")
     point_list = []
     i = 0
-    with open('../examples/chair/chair_0913.txt', 'r') as data:
+    with open('../examples/chair/chair_0973.txt', 'r') as data:
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
