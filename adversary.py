@@ -48,6 +48,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
     new_tensor = tensor.detach().clone()
     # orig_prediction, _ = net(tensor)
     orig_prediction, _ = net(tensor)
+    num_itr = 0
 
     data_path = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/'
 
@@ -69,6 +70,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
     for i in range(n_iter):
 
         if cat.index(orig_class) != orig_prediction:
+            num_itr = i
             print(f"We fooled the network after {i+1} iterations!")
             print(f"New prediction: {cat[orig_prediction]}")
             # log_string(new_tensor.transpose(1,2).detach().numpy())
@@ -83,20 +85,37 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
         new_prediction, _ = net(new_tensor)
         # new_prediction, _ = net(new_tensor)
         new_prediction = new_prediction.argmax()
-
+        num_itr = i
         if cat.index(orig_class) != new_prediction:
+            num_itr = i
             print(f"We fooled the network after {i+1} iterations!")
             print(f"New prediction: {cat[new_prediction]}")
             print(f"{filename} \n")
             # log_string(new_tensor.transpose(1,2).detach().numpy())
             break
+
     tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
     tensor_string = ""
     # log_string(tensor_numpy)
 
-    data_path= "examples"
+    # import numpy as np
+
+    # # data = np.loadtxt("../examples/airplane/0_output.txt", delimiter = "\n")
+    # point_list = []
+    # i = 0
+    # with open('../examples/airplane/airplane_0628.txt', 'r') as data:
+    #     for line in data:
+    #         point_list.append([])
+    #         point_list[i] = [n for n in line.split(',')]
+    #         i += 1
+    #
+    # data_path= "examples"
+    # np.append(tensor_numpy[0],point_list[:,3],axis=1)
+    # np.append(tensor_numpy[0],point_list[:,4],axis=1)
+    # np.append(tensor_numpy[0],point_list[:,5],axis=1)
+
     for a in tensor_numpy[0]:
-        tensor_string =f"{tensor_string}{a[0]},{a[1]},{a[2]} \n"
+        tensor_string =f"{tensor_string}{a[0]},{a[1]},{a[2]}\n"
         # tensor_string = tensor_string + ','.join(str(v) for v in tensor_numpy) + "\n"
 
     filenaming = os. path. join(data_path,f"{orig_class}", f"{filename}.txt")
@@ -110,7 +129,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
         # log_string(new_tensor)
         # log_string(f"{new_tensor.size()}")
 
-    return new_tensor, orig_prediction.item(), new_prediction.item()
+    return new_tensor, orig_prediction.item(), new_prediction.item(), num_itr
 
 
 if __name__ == "__main__":
@@ -180,33 +199,37 @@ if __name__ == "__main__":
     # log_string(test_dataset)
     total = 0
     countdiff=0
-    # class_total = []
     class_total = [0 for i in range(40)]
     class_countdiff = [0 for i in range(40)]
+    real_adv = []
 
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
-
 
         x = x.transpose(2, 1)
         # x_t = torch.Tensor(x)
         # log_string(x_t)
         # y_t = torch.Tensor(y)
         tensor = x
-        new_tensor, orig_prediction, new_prediction = attack(
-            tensor, net, step, eps=0.3, n_iter=3, orig_class=shape_names[step], filename=fileshape[step]
+        new_tensor, orig_prediction, new_prediction, num_itr = attack(
+            tensor, net, step, eps=0.01, n_iter=20, orig_class=shape_names[step], filename=fileshape[step]
             )
+        total += 1
+        class_total[cat.index(shape_names[step])] += 1
+        if cat.index(shape_names[step]) != new_prediction:
+            countdiff += 1
+            class_countdiff[cat.index(shape_names[step])] += 1
 
-        total+=1
-        class_total[cat.index(shape_names[step])]+=1
-        if cat.index(shape_names[step])!=new_prediction:
-            countdiff+=1
-            class_countdiff[cat.index(shape_names[step])]=+1
+        if num_itr<10:
+            real_adv.append([fileshape, num_itr , orig_prediction, new_prediction])
 
     for i in range(len(class_total)):
         accuracy = 1 - (class_countdiff[i]/class_total[i])
-        log_string(f"The CLASS accuracy after adding a perturbation of {cat[i]} = {accuracy*100}% \n ")
+        log_string(f"The CLASS accuracy after adding a perturbation of {cat[i]} = {accuracy*100}% ")
+
+    log_string(f"{real_adv}")
+
     accuracy = 1 - (countdiff/total)
-    log_string(f"\n E = 0.3 ep = 3 \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
+    log_string(f"\n E = 0.01 ep = 20 \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
         # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))

@@ -35,9 +35,9 @@ def showpoints(xyz, c_gt=None, c_pred=None, waittime=0, showrot=False, magnifyBl
     radius = ((xyz ** 2).sum(axis=-1) ** 0.5).max()
     xyz /= (radius * 2.2) / showsz
     if c_gt is None:
-        c0 = 0.015210
-        c1 = 0.993500
-        c2 = -0.113100
+        c0 = np.zeros((len(xyz),), dtype='float32') + 0
+        c1 = np.zeros((len(xyz),), dtype='float32') + 255
+        c2 = np.zeros((len(xyz),), dtype='float32') + 0
     else:
         c0 = c_gt[:, 0]
         c1 = c_gt[:, 1]
@@ -208,7 +208,7 @@ if __name__ == '__main__':
     sys.path.append(BASE_DIR)
     sys.path.append(os.path.join(ROOT_DIR, 'data_utils'))
 
-    from ModelNetDataLoader import ModelNetDataLoader
+    # from ModelNetDataLoader import ModelNetDataLoader
     # from ShapeNetDataLoader import PartNormalDataset
     # root = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/shapenetcore_partanno_segmentation_benchmark_v0_normal/'
     # dataset = PartNormalDataset(root = root, npoints=2048, split='test', normal_channel=False, num)
@@ -217,8 +217,8 @@ if __name__ == '__main__':
     # point_set, _, seg = data
     # choice = np.random.choice(point_set.shape[0], opt.npoints, replace=True)
     # point_set, seg = point_set[choice, :], seg[choice]
-
-    # seg = seg - seg.min()
+    #
+    # # seg = seg - seg.min()
     # gt = cmap[seg, :]
     # pred = cmap[seg, :]
     import numpy as np
