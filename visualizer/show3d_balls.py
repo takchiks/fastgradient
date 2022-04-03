@@ -35,9 +35,9 @@ def showpoints(xyz, c_gt=None, c_pred=None, waittime=0, showrot=False, magnifyBl
     radius = ((xyz ** 2).sum(axis=-1) ** 0.5).max()
     xyz /= (radius * 2.2) / showsz
     if c_gt is None:
-        c0 = np.zeros((len(xyz),), dtype='float32') + 0
-        c1 = np.zeros((len(xyz),), dtype='float32') + 0
-        c2 = np.zeros((len(xyz),), dtype='float32') + 255
+        c0 = np.zeros((len(xyz),), dtype='float32') + 200
+        c1 = np.zeros((len(xyz),), dtype='float32') + 5
+        c2 = np.zeros((len(xyz),), dtype='float32') + 5
     else:
         c0 = c_gt[:, 0]
         c1 = c_gt[:, 1]
