@@ -46,6 +46,7 @@ def func(inp, net=None, target=None):
 def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="output"):
     args = parse_args()
     new_tensor = tensor.detach().clone()
+    old_tenor = tensor.detach().clone()
     # orig_prediction, _ = net(tensor)
     orig_prediction, _ = net(tensor)
     num_itr = 0
@@ -99,7 +100,9 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
     diff_tenor_numpy = diff_tenor.transpose(1, 2).detach().numpy()
     tensor_string = ""
     tenor_string = ""
-    # log_string(tensor_numpy)
+    log_string(old_tenor)
+    log_string(new_tensor)
+    log_string(diff_tenor)
 
     # import numpy as np
 
