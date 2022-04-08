@@ -249,7 +249,8 @@ if __name__ == "__main__":
 
     accuracy = 1 - (countdiff/total)
     log_string(f"\n E = {epsilon} ep = {epochs} \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
-    logging_string+=f"\n E = {epsilon} ep = {epochs} \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%"
+    logging_string+=f"\n E = {epsilon} ep = {epochs} \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%\n"
+    logging_string+=f"{real_adv}"
     data_path= f"examples/{epsilon}and{epochs}"
     filenaming = os. path. join(data_path,f"accuracies.txt")
     text_file = open(filenaming, "w")
