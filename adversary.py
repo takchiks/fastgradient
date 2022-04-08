@@ -82,6 +82,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
                 func, new_tensor, net=net, target=orig_prediction
                 )
         new_tensor = torch.clamp(new_tensor + eps * grad.sign(), -2, 2)
+
         new_prediction, _ = net(new_tensor)
         # new_prediction, _ = net(new_tensor)
         new_prediction = new_prediction.argmax()
@@ -93,9 +94,11 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
             print(f"{filename} \n")
             # log_string(new_tensor.transpose(1,2).detach().numpy())
             break
-
+    diff_tenor = torch.sub(new_tensor,tensor.detach().clone())
     tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
+    diff_tenor_numpy = diff_tenor.transpose(1, 2).detach().numpy()
     tensor_string = ""
+    tenor_string = ""
     # log_string(tensor_numpy)
 
     # import numpy as np
@@ -109,7 +112,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
     #         point_list[i] = [n for n in line.split(',')]
     #         i += 1
     #
-    # data_path= "examples"
+    data_path= f"examples/{eps}and{n_iter}"
     # np.append(tensor_numpy[0],point_list[:,3],axis=1)
     # np.append(tensor_numpy[0],point_list[:,4],axis=1)
     # np.append(tensor_numpy[0],point_list[:,5],axis=1)
@@ -118,9 +121,18 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
         tensor_string =f"{tensor_string}{a[0]},{a[1]},{a[2]}\n"
         # tensor_string = tensor_string + ','.join(str(v) for v in tensor_numpy) + "\n"
 
+    for a in diff_tenor_numpy[0]:
+        tenor_string =f"{tenor_string}{a[0]},{a[1]},{a[2]}\n"
+        # tensor_string = tensor_string + ','.join(str(v) for v in tensor_numpy) + "\n"
+
     filenaming = os. path. join(data_path,f"{orig_class}", f"{filename}.txt")
     text_file = open(filenaming, "w")
     text_file.write(tensor_string)
+    text_file.close()
+
+    filenaming = os. path. join(data_path,f"{orig_class}", f"{filename}_diff.txt")
+    text_file = open(filenaming, "w")
+    text_file.write(tenor_string)
     text_file.close()
     # ','.join(map(str, a))
 
@@ -129,7 +141,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
         # log_string(new_tensor)
         # log_string(f"{new_tensor.size()}")
 
-    return new_tensor, orig_prediction.item(), new_prediction.item(), num_itr
+    return diff_tenor ,new_tensor , orig_prediction.item(), new_prediction.item(), num_itr
 
 
 if __name__ == "__main__":
@@ -202,6 +214,8 @@ if __name__ == "__main__":
     class_total = [0 for i in range(40)]
     class_countdiff = [0 for i in range(40)]
     real_adv = []
+    epsilon = 0.1
+    epochs = 5
 
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
 
@@ -210,8 +224,8 @@ if __name__ == "__main__":
         # log_string(x_t)
         # y_t = torch.Tensor(y)
         tensor = x
-        new_tensor, orig_prediction, new_prediction, num_itr = attack(
-            tensor, net, step, eps=0.001, n_iter=4, orig_class=shape_names[step], filename=fileshape[step]
+        diff ,new_tensor, orig_prediction, new_prediction, num_itr = attack(
+            tensor, net, step, eps=epsilon, n_iter=epochs, orig_class=shape_names[step], filename=fileshape[step]
             )
         total += 1
         class_total[cat.index(shape_names[step])] += 1
@@ -229,7 +243,7 @@ if __name__ == "__main__":
     log_string(f"{real_adv}")
 
     accuracy = 1 - (countdiff/total)
-    log_string(f"\n E = 0.01 ep = 20 \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
+    log_string(f"\n E = {epsilon} ep = {epochs} \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
         # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
