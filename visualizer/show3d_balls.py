@@ -226,13 +226,16 @@ if __name__ == '__main__':
     # data = np.loadtxt("../examples/airplane/0_output.txt", delimiter = "\n")
     point_list = []
     i = 0
-    # with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0722.txt', 'r') as data:
-    with open('../examples/airplane/airplane_0722.txt', 'r') as data:
+    with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0722.txt', 'r') as data:
+    # with open('../examples/airplane/airplane_0722.txt', 'r') as data:
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
             i += 1
-    point_set = np.array(point_list).astype(float)
+    list1 = [0, 1, 2]
+    new_list = [[each_list[i] for i in list1] for each_list in point_list]
+
+    point_set = np.array(new_list).astype(float)
     showpoints(point_set, waittime=0, showrot=False, magnifyBlue=0, freezerot=False,
                background=(255, 255, 255), normalizecolor=True, ballradius=opt.ballradius)
 
