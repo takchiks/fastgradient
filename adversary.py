@@ -100,9 +100,9 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
     diff_tenor_numpy = diff_tenor.transpose(1, 2).detach().numpy()
     tensor_string = ""
     tenor_string = ""
-    log_string(old_tenor)
-    log_string(new_tensor)
-    log_string(diff_tenor)
+    # log_string(old_tenor)
+    # log_string(new_tensor)
+    # log_string(diff_tenor)
 
     # import numpy as np
 
@@ -219,6 +219,7 @@ if __name__ == "__main__":
     real_adv = []
     epsilon = 0.1
     epochs = 5
+    logging_string = ""
 
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
 
@@ -241,12 +242,19 @@ if __name__ == "__main__":
 
     for i in range(len(class_total)):
         accuracy = 1 - (class_countdiff[i]/class_total[i])
+        logging_string+= f"The CLASS accuracy after adding a perturbation of {cat[i]} = {accuracy*100}% \n"
         log_string(f"The CLASS accuracy after adding a perturbation of {cat[i]} = {accuracy*100}% ")
 
     log_string(f"{real_adv}")
 
     accuracy = 1 - (countdiff/total)
     log_string(f"\n E = {epsilon} ep = {epochs} \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%")
+    logging_string+=f"\n E = {epsilon} ep = {epochs} \n The overall accuracy of the model after adding a perturbation is now {accuracy*100}%"
+    data_path= f"examples/{epsilon}and{epochs}"
+    filenaming = os. path. join(data_path,f"accuracies.txt")
+    text_file = open(filenaming, "w")
+    text_file.write(logging_string)
+    text_file.close()
         # arr = to_array(new_tensor)
 
     # _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(19.20,10.80))
