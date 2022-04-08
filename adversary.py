@@ -218,7 +218,7 @@ if __name__ == "__main__":
     class_countdiff = [0 for i in range(40)]
     real_adv = []
     epsilon = 0.3
-    epochs = 3
+    epochs = 1
     logging_string = ""
 
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
