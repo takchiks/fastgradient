@@ -94,7 +94,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
             print(f"{filename} \n")
             # log_string(new_tensor.transpose(1,2).detach().numpy())
             break
-    diff_tenor = torch.sub(new_tensor,tensor.detach().clone())
+    diff_tenor = torch.clamp(new_tensor - tensor.detach().clone(),-2,2)
     tensor_numpy = new_tensor.transpose(1, 2).detach().numpy()
     diff_tenor_numpy = diff_tenor.transpose(1, 2).detach().numpy()
     tensor_string = ""
