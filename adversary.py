@@ -82,8 +82,8 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
         grad = compute_gradient(
                 func, new_tensor, net=net, target=orig_prediction
                 )
-        new_tensor = torch.clamp(new_tensor + eps * grad.sign(), -2, 2)
-
+        # new_tensor = torch.clamp(new_tensor + eps * grad.sign(), -2, 2)
+        new_tensor = new_tensor
         new_prediction, _ = net(new_tensor)
         # new_prediction, _ = net(new_tensor)
         new_prediction = new_prediction.argmax()
@@ -217,8 +217,8 @@ if __name__ == "__main__":
     class_total = [0 for i in range(40)]
     class_countdiff = [0 for i in range(40)]
     real_adv = []
-    epsilon = 0.00005
-    epochs = 10
+    epsilon = 0.0
+    epochs = 1
     logging_string = ""
 
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
