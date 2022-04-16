@@ -217,8 +217,8 @@ if __name__ == "__main__":
     class_total = [0 for i in range(40)]
     class_countdiff = [0 for i in range(40)]
     real_adv = []
-    epsilon = 0.0001
-    epochs = 8
+    epsilon = 0.00005
+    epochs = 10
     logging_string = ""
 
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
@@ -237,7 +237,7 @@ if __name__ == "__main__":
             countdiff += 1
             class_countdiff[cat.index(shape_names[step])] += 1
 
-        if num_itr < 6:
+        if num_itr in range(1,6):
             real_adv.append([fileshape[step], num_itr, orig_prediction, new_prediction])
 
     for i in range(len(class_total)):
