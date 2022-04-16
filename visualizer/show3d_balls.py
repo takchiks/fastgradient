@@ -227,7 +227,7 @@ if __name__ == '__main__':
     point_list = []
     i = 0
     # with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0722.txt', 'r') as data:
-    with open('../examples/5e-05and10/sofa/sofa_0741.txt', 'r') as data:
+    with open('../examples/5e-05and10/bathtub/bathtub_0118.txt', 'r') as data:
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
