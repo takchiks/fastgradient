@@ -217,8 +217,8 @@ if __name__ == "__main__":
     class_total = [0 for i in range(40)]
     class_countdiff = [0 for i in range(40)]
     real_adv = []
-    epsilon = 0.0
-    epochs = 1
+    epsilon = 0.00005
+    epochs = 10
     logging_string = ""
 
     for step, (x, y) in tqdm(enumerate(testDataLoader), total=len(testDataLoader)):
@@ -236,9 +236,8 @@ if __name__ == "__main__":
         if cat.index(shape_names[step]) != new_prediction:
             countdiff += 1
             class_countdiff[cat.index(shape_names[step])] += 1
-
-        if num_itr<6 and cat.index(shape_names[step]) != new_prediction:
-            real_adv.append([fileshape[step], num_itr, orig_prediction, new_prediction])
+            if orig_prediction== cat.index(shape_names[step]):
+                real_adv.append([fileshape[step], num_itr, shape_names[step], cat[new_prediction]])
 
     for i in range(len(class_total)):
         accuracy = 1 - (class_countdiff[i]/class_total[i])
