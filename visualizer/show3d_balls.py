@@ -36,8 +36,8 @@ def showpoints(xyz, c_gt=None, c_pred=None, waittime=0, showrot=False, magnifyBl
     xyz /= (radius * 2.2) / showsz
     if c_gt is None:
         c0 = np.zeros((len(xyz),), dtype='float32') + 255
-        c1 = np.zeros((len(xyz),), dtype='float32') + 255
-        c2 = np.zeros((len(xyz),), dtype='float32') + 0
+        c1 = np.zeros((len(xyz),), dtype='float32') + 0
+        c2 = np.zeros((len(xyz),), dtype='float32') + 255
     else:
         c0 = c_gt[:, 0]
         c1 = c_gt[:, 1]
@@ -226,8 +226,8 @@ if __name__ == '__main__':
     # data = np.loadtxt("../examples/airplane/0_output.txt", delimiter = "\n")
     point_list = []
     i = 0
-    # with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/chair/chair_0954.txt', 'r') as data:
-    with open('../examples/5e-05and10/guitar/guitar_0205.txt', 'r') as data:
+    with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/guitar/guitar_0205.txt.txt', 'r') as data:
+    # with open('../examples/5e-05and10/guitar/guitar_0205.txt', 'r') as data:
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
