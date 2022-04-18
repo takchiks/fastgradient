@@ -241,7 +241,8 @@ if __name__ == "__main__":
         if cat.index(shape_names[step]) != new_prediction:
             countdiff += 1
             class_countdiff[cat.index(shape_names[step])] += 1
-            real_adv.append([fileshape[step], num_itr, shape_names[step], cat[new_prediction]])
+            if cat.index(shape_names[step]) == orig_prediction:
+                real_adv.append([fileshape[step], num_itr, shape_names[step], cat[new_prediction]])
 
     for i in range(len(class_total)):
         accuracy = 1 - (class_countdiff[i]/class_total[i])
