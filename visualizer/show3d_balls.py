@@ -227,7 +227,7 @@ if __name__ == '__main__':
     point_list = []
     i = 0
     # with open('../ModelNet40/airplane/airplane_0627.txt', 'r') as data:
-    with open('../examples/0.1and3/airplane/airplane_0699_diff.txt', 'r') as data:
+    with open('../examples/0.1and3/airplane/airplane_0699.txt', 'r') as data:
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
