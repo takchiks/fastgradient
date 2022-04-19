@@ -228,6 +228,7 @@ if __name__ == '__main__':
     i = 0
     with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0699.txt', 'r') as data:
     # with open('../examples/0.1and3/airplane/airplane_0699.txt', 'r') as data:
+        data = fur
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
