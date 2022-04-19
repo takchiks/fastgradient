@@ -5,6 +5,8 @@ import cv2
 import sys
 import os
 
+import ModelNetDataLoader
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 showsz = 800
 mousex, mousey = 0.5, 0.5
@@ -228,7 +230,7 @@ if __name__ == '__main__':
     i = 0
     with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0699.txt', 'r') as data:
     # with open('../examples/0.1and3/airplane/airplane_0699.txt', 'r') as data:
-        data = fur
+        data = ModelNetDataLoader.farthest_point_sample(data,1024)
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
