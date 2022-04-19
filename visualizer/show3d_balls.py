@@ -238,7 +238,7 @@ if __name__ == '__main__':
             i += 1
 
     print(np.array(point_list).shape)
-    data = farthest_point_sample(np.array(point_list),1024)
+    data = farthest_point_sample(np.array(point_list).astype(float),1024)
     list1 = [0, 1, 2]
     new_list = [[each_list[i] for i in list1] for each_list in point_list]
 
