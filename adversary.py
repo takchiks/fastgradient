@@ -223,7 +223,7 @@ if __name__ == "__main__":
     class_total = [0 for i in range(40)]
     class_countdiff = [0 for i in range(40)]
     real_adv = []
-    epsilon = 0.002
+    epsilon = 0.01
     epochs = 20
     logging_string = ""
 
