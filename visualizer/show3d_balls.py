@@ -232,12 +232,13 @@ if __name__ == '__main__':
 
     with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0699.txt', 'r') as data:
     # with open('../examples/0.1and3/airplane/airplane_0699.txt', 'r') as data:
-        print(np.array([data]).shape)
-        data = farthest_point_sample(np.array([data]),1024)
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
             i += 1
+
+    print(np.array(point_list).shape)
+    data = farthest_point_sample(np.array(point_list),1024)
     list1 = [0, 1, 2]
     new_list = [[each_list[i] for i in list1] for each_list in point_list]
 
