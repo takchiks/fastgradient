@@ -5,7 +5,7 @@ import cv2
 import sys
 import os
 
-import ModelNetDataLoader
+# import ModelNetDataLoader
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 showsz = 800
@@ -210,7 +210,7 @@ if __name__ == '__main__':
     sys.path.append(BASE_DIR)
     sys.path.append(os.path.join(ROOT_DIR, 'data_utils'))
 
-    # from ModelNetDataLoader import ModelNetDataLoader
+    from ModelNetDataLoader import ModelNetDataLoader
     # from ShapeNetDataLoader import PartNormalDataset
     # root = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/shapenetcore_partanno_segmentation_benchmark_v0_normal/'
     # dataset = PartNormalDataset(root = root, npoints=2048, split='test', normal_channel=False, num)
@@ -228,7 +228,7 @@ if __name__ == '__main__':
     # data = np.loadtxt("../examples/airplane/0_output.txt", delimiter = "\n")
     point_list = []
     i = 0
-    import ModelNetDataLoader
+    # import ModelNetDataLoader
 
     with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/airplane/airplane_0699.txt', 'r') as data:
     # with open('../examples/0.1and3/airplane/airplane_0699.txt', 'r') as data:
