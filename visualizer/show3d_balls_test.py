@@ -230,8 +230,8 @@ if __name__ == '__main__':
     i = 0
     # import ModelNetDataLoader
 
-    # with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/guitar/guitar_0248.txt', 'r') as data:
-    with open('../examples/0.01and3/cone/cone_0173.txt', 'r') as data:
+    with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/cone/cone_0173.txt', 'r') as data:
+    # with open('../examples/0.01and3/cone/cone_0173_diff.txt', 'r') as data:
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
