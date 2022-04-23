@@ -231,7 +231,7 @@ if __name__ == '__main__':
     # import ModelNetDataLoader
 
     # with open('../../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/guitar/guitar_0248.txt', 'r') as data:
-    with open('../examples/0.01and3/chair/chair_0895.txt', 'r') as data:
+    with open('../examples/0.01and3/cone/cone_0173.txt', 'r') as data:
         for line in data:
             point_list.append([])
             point_list[i] = [n for n in line.split(',')]
