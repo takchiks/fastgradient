@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument('--batch_size', type=int, default=24, help='batch size in training')
     parser.add_argument('--num_category', default=40, type=int, choices=[10, 40],  help='training on ModelNet10/40')
     parser.add_argument('--num_point', type=int, default=1024, help='Point Number')
-    parser.add_argument('--log_dir', type=str, default='2022-04-18_17-51', help='Experiment root')
+    parser.add_argument('--log_dir', type=str, default='2022-04-22_14-46', help='Experiment root')
     # parser.add_argument('--log_dir', type=str, default=None, help='experiment root')
     parser.add_argument('--use_normals', action='store_true', default=False, help='use normals')
     parser.add_argument('--use_uniform_sample', action='store_true', default=False, help='use uniform sampiling')
