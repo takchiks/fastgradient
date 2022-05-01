@@ -52,7 +52,7 @@ def attack(tensor, net, step, eps=0.005, n_iter=5, orig_class="car", filename="o
     orig_prediction, _ = net(tensor)
     num_itr = 0
 
-    data_path = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/'
+    data_path = 'data/modelnet40_normal_resampled/'
 
     if parse_args().num_category == 10:
         catfile = os.path.join(data_path, 'modelnet10_shape_names.txt')
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
     '''CREATE DIR'''
-    experiment_dir = '../../PointClouds/Pointnet_Pointnet2_pytorch/log/classification/' + args.log_dir
+    experiment_dir = 'classification/' + args.log_dir
 
     '''LOG'''
     args = parse_args()
@@ -181,7 +181,7 @@ if __name__ == "__main__":
 
     '''DATA LOADING'''
     log_string('Load dataset ...')
-    data_path = '../../PointClouds/Pointnet_Pointnet2_pytorch/data/modelnet40_normal_resampled/'
+    data_path = 'data/modelnet40_normal_resampled/'
 
     test_dataset = ModelNetDataLoader(root=data_path, args=args, split='test', process_data=False)
     testDataLoader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=10)
