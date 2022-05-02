@@ -22,7 +22,9 @@ Download dataset from:
 
 # Extract zip and copy folder modelnet40_normal_resampled to data folder 
 
-python adversary.py and generate adversary examples 
+python adversary.py
+
+and generate adversary examples 
 
  
 
@@ -30,11 +32,11 @@ python adversary.py and generate adversary examples
 
 cd visualizer 
 
-Run python show3d_balls.py 
+python show3d_balls.py 
 
-Run python show3d_balls_perturb.py 
+python show3d_balls_perturb.py 
 
-Run python show3d_balls_test.py 
+python show3d_balls_test.py 
 
  
 
