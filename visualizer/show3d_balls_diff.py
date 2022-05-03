@@ -230,7 +230,7 @@ if __name__ == '__main__':
     i = 0
     # import ModelNetDataLoader
 
-    # with open('data/modelnet40_normal_resampled/guitar/guitar_0156.txt', 'r') as data:
+    # with open('../data/modelnet40_normal_resampled/guitar/guitar_0156.txt', 'r') as data:
     with open('../examples/0.001and5/guitar/guitar_0156_diff.txt', 'r') as data:
         for line in data:
             point_list.append([])
